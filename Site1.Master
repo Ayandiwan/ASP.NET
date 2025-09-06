@@ -1,0 +1,46 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site1.master.cs" Inherits="Work.Site1" %>
+
+<!DOCTYPE html>
+
+<html>
+<head runat="server">
+    <title></title>
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <form id="form1" runat="server">
+        <div>
+            <table width="100%">
+                <tr>
+
+                    <td style="width: 100%; color: #FFFFFF; background-color: #000000; text-align: center; font-size: 25px;" colspan="3">Header</td>
+
+                </tr>
+
+                <tr>
+                    <td style="width: 30%; background-color: #99FF99;">
+                        <asp:TreeView ID="TreeView1" runat="server" DataSourceID="SiteMapDataSource1" ShowLines="True"></asp:TreeView>
+                        <asp:SiteMapDataSource ID="SiteMapDataSource1" runat="server" />
+                    </td>
+                    <td style="width: 70%; background-color: #CCCCFF;">
+
+                        <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                        </asp:ContentPlaceHolder>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+
+                    <td style="width: 100%; color: #FFFFFF; background-color: #000000; text-align: center; font-size: 25px;" colspan="3">Footer</td>
+
+                </tr>
+
+            </table>
+
+        </div>
+    </form>
+</body>
+</html>
