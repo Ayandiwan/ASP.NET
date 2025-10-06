@@ -81,7 +81,7 @@
             <h4>🌾 Admin Panel</h4>
             <a href="Admin_Dashboard.aspx">📊 Dashboard</a>
             <a href="AddProduct.aspx">📦 Manage Products</a>
-            <a href="ManageOrders.aspx">🛒 Manage Orders</a>
+            <a href="AdminOrders.aspx">🛒 Manage Orders</a>
             <a href="ManageUsers.aspx">👥 Manage Users</a>
             <a href="Reports.aspx">📑 Reports</a>
             <a href="AdminSettings.aspx">⚙ Settings</a>
