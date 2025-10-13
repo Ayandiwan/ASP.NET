@@ -6,100 +6,217 @@
     <meta charset="utf-8" />
     <title>Admin Panel | Agriculture Equipment Store</title>
 
-    <!-- Bootstrap CSS -->
+    <!-- Bootstrap + Icons -->
     <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet" />
 
     <style>
+        :root {
+            --sidebar-bg: #111827;
+            --sidebar-hover: #1f2937;
+            --accent: #22c55e;
+            --text-light: #f9fafb;
+            --text-muted: #9ca3af;
+            --main-bg: #f3f4f6;
+            --card-bg: #ffffff;
+        }
+
         body {
-            font-family: 'Segoe UI', sans-serif;
-            background-color: #f4f6f9;
+            font-family: "Segoe UI", sans-serif;
+            background-color: var(--main-bg);
             margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* Top Navbar */
+        .navbar {
+            background-color: var(--sidebar-bg);
+            color: var(--text-light);
+            padding: 12px 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+
+        .navbar .brand {
+            font-weight: bold;
+            color: var(--text-light);
+            font-size: 1.6rem;           /* bigger header */
+            text-align: center;
+            position: relative;           /* stable centering */
+            margin: 0 auto;
+            display: block;
+            max-width: calc(100% - 60px); /* prevent overflow near toggle */
+            white-space: nowrap;          
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .navbar .toggle-btn {
+            position: absolute;
+            left: 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.3rem;
+            cursor: pointer;
         }
 
         /* Sidebar */
         .sidebar {
-            height: 100vh;
-            width: 240px;
             position: fixed;
-            top: 0;
+            top: 56px;
             left: 0;
-            background: #2e7d32;
-            padding-top: 20px;
-            color: white;
-            transition: width 0.3s;
-        }
-        .sidebar h4 {
-            text-align: center;
-            margin-bottom: 30px;
-            font-weight: bold;
-        }
-        .sidebar a {
-            display: block;
-            padding: 12px 20px;
-            color: #fff;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .sidebar a:hover {
-            background: #256428;
-            border-radius: 4px;
+            width: 240px;
+            height: calc(100vh - 56px);
+            background-color: var(--sidebar-bg);
+            color: var(--text-light);
+            overflow-y: auto;
+            transition: width 0.3s ease;
         }
 
-        /* Content */
-        .content {
+        .sidebar.collapsed {
+            width: 75px;
+        }
+
+        .sidebar .nav-link {
+            color: var(--text-muted);
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            font-weight: 500;
+            transition: background 0.3s, color 0.3s;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: var(--sidebar-hover);
+            color: var(--accent);
+        }
+
+        .sidebar .nav-link i {
+            width: 22px;
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+
+        .sidebar.collapsed .nav-link span {
+            display: none;
+        }
+
+        /* Main Content */
+        .main-content {
             margin-left: 240px;
+            padding: 80px 30px 40px 30px;
+            transition: margin-left 0.3s ease;
+        }
+
+        .collapsed ~ .main-content {
+            margin-left: 75px;
+        }
+
+        /* Cards and Sections */
+        .card {
+            background-color: var(--card-bg);
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
             padding: 20px;
+            margin-bottom: 20px;
         }
 
         /* Footer */
         footer {
             margin-top: 40px;
+            background: var(--sidebar-bg);
+            color: var(--text-light);
+            padding: 12px;
             text-align: center;
-            padding: 10px;
-            background: #212529;
-            color: white;
-            border-radius: 6px;
+            border-radius: 10px;
         }
 
         /* Responsive */
-        @media (max-width: 768px) {
+        @media (max-width: 992px) {
             .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
+                position: absolute;
+                left: -240px;
+                z-index: 999;
             }
-            .content {
+
+            .sidebar.active {
+                left: 0;
+            }
+
+            .main-content {
                 margin-left: 0;
+                padding: 70px 15px;
+            }
+
+            .navbar .toggle-btn {
+                left: 10px;
+            }
+
+            .navbar .brand {
+                font-size: 1.3rem;
             }
         }
     </style>
 </head>
+
 <body>
     <form runat="server">
+        <!-- Top Navbar -->
+        <div class="navbar">
+            <button id="toggleSidebar" class="toggle-btn"><i class="fa-solid fa-bars"></i></button>
+            <span class="brand">🌾 Agri Admin Panel</span>
+        </div>
+
         <!-- Sidebar -->
-        <div class="sidebar">
-            <h4>🌾 Admin Panel</h4>
-            <a href="Admin_Dashboard.aspx">📊 Dashboard</a>
-            <a href="AddProduct.aspx">📦 Manage Products</a>
-            <a href="AdminOrders.aspx">🛒 Manage Orders</a>
-            <a href="ManageUsers.aspx">👥 Manage Users</a>
-            <a href="Reports.aspx">📑 Reports</a>
-            <a href="AdminSettings.aspx">⚙ Settings</a>
-            <a href="Logout.aspx">🚪 Logout</a>
+        <div id="sidebar" class="sidebar">
+            <a href="Admin_Dashboard.aspx" class="nav-link active"><i class="fa-solid fa-chart-line"></i><span> Dashboard</span></a>
+            <a href="AddProduct.aspx" class="nav-link"><i class="fa-solid fa-box"></i><span> Manage Products</span></a>
+            <a href="AdminOrders.aspx" class="nav-link"><i class="fa-solid fa-cart-shopping"></i><span> Manage Orders</span></a>
+            <a href="ManageUsers.aspx" class="nav-link"><i class="fa-solid fa-users"></i><span> Manage Users</span></a>
+            <a href="ManageCategories.aspx" class="nav-link"><i class="fa-solid fa-list"></i><span> Manage Categories</span></a>
+            <a href="Reports.aspx" class="nav-link"><i class="fa-solid fa-file-alt"></i><span> Reports</span></a>
+            <a href="AdminSettings.aspx" class="nav-link"><i class="fa-solid fa-gear"></i><span> Settings</span></a>
+            <a href="Logout.aspx" class="nav-link"><i class="fa-solid fa-right-from-bracket"></i><span> Logout</span></a>
         </div>
 
         <!-- Main Content -->
-        <div class="content">
-            <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
+        <div class="main-content">
+            <div class="container-fluid">
+                <asp:ContentPlaceHolder ID="MainContent" runat="server"></asp:ContentPlaceHolder>
 
-            <!-- Footer -->
-            <footer>
-                © 2025 Agriculture Equipment Store | Admin Panel
-            </footer>
+                <!-- Footer -->
+                <footer>
+                    © 2025 Agriculture Equipment Store | Admin Portal
+                </footer>
+            </div>
         </div>
     </form>
 
     <!-- Bootstrap JS -->
     <script src="bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Sidebar Toggle Script -->
+    <script>
+        const toggleBtn = document.getElementById("toggleSidebar");
+        const sidebar = document.getElementById("sidebar");
+
+        toggleBtn.addEventListener("click", function (e) {
+            e.preventDefault();
+            if (window.innerWidth <= 992) {
+                sidebar.classList.toggle("active");
+            } else {
+                sidebar.classList.toggle("collapsed");
+            }
+        });
+    </script>
 </body>
 </html>
